@@ -1,15 +1,19 @@
-import { db, logErrorToDatabase } from "@utils/db";
+import { db } from "@database/connection";
+import { eds_siak_coa } from "@database/schema/eds_siak_coa";
 
 export async function getAllCoa(data: { 
     kode_unik_member: string;
     kode_perusahaan: string
 }) {
     try {
-        const result = await db`SELECT * FROM eds_siak_coa WHERE kode_perusahaan = ${data.kode_perusahaan} AND kode_unik_member = ${data.kode_unik_member}`;
+        const prepared = db.select().from(eds_siak_coa).prepare("call_coa");
+        const result = await prepared.execute({
+            kode_perusahaan: data.kode_perusahaan,
+            kode_unik_member: data.kode_unik_member
+        });
         return result;
     } catch (error) {
-        await logErrorToDatabase(error, '/siak/coa');
-        return false;
+        return error;
     }
 }
 
@@ -28,7 +32,7 @@ export async function InsertCoa(data: {
     kode_perusahaan: string;
 }) {
     try {
-        const result = await db`
+        const result = await db.execute(`
             INSERT INTO eds_siak_coa (
                 parent_id, kode_coa_group, nama_coa_group, defaul_tinput, 
                 jenis_akun, saldo_awal, saldo_awal_dc, kas_bank, 
@@ -38,10 +42,9 @@ export async function InsertCoa(data: {
                 ${data.jenis_akun}, ${data.saldo_awal}, ${data.saldo_awal_dc}, ${data.kas_bank}, 
                 ${data.keterangan}, ${data.is_delete}, ${data.kode_unik_member}, ${data.kode_perusahaan}
             ) RETURNING id, kode_coa_group, nama_coa_group;
-        `;
-        return result[0];
+        `);
+        return result;
     } catch (error) {
-        await logErrorToDatabase(error, "/siak/coa"); 
         return false;
     }
 }

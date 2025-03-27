@@ -1,1 +1,1 @@
-console.log("Hello via Bun!");
+console.log("Hello Rest API E2RP!");

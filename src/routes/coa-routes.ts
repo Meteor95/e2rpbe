@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { swaggerUI } from '@hono/swagger-ui'
 import { getCoa, createCoa } from "@controllers/siak/coa-controller";
 
 const coaRoutes = new Hono();

@@ -1,8 +1,10 @@
-import { pgTable, varchar, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, varchar, integer, boolean, timestamp, serial } from "drizzle-orm/pg-core";
 
 export const eds_users = pgTable('eds_users', {
-    id: varchar('id', { length: 255 }).primaryKey(),
+    id: serial('id').primaryKey().notNull(),
     uuid: varchar('uuid', { length: 255 }).notNull(),
+    email: varchar('email', { length: 255 }).notNull(),
+    phone: varchar('phone', { length: 20 }).notNull(),
     username: varchar('username', { length: 100 }).notNull(),
     password: varchar('password', { length: 100 }).notNull(),
     role: integer('role').notNull(),

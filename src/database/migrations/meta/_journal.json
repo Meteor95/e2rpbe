@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1741784953172,
-      "tag": "0000_create_eds_users",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1741787072587,
-      "tag": "0001_create_eds_siak_coa",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1741788293237,
-      "tag": "0002_create_eds_error_log",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1741789479529,
-      "tag": "0003_update_kolom_users_uuid",
+      "when": 1743000121726,
+      "tag": "0000_create_table_log_coa_users",
       "breakpoints": true
     }
   ]

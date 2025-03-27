@@ -2,6 +2,7 @@ import { pgTable, varchar, boolean, timestamp, serial, numeric } from "drizzle-o
 
 export const eds_siak_coa = pgTable('eds_siak_coa', {
     id: serial('id').primaryKey(),
+    parent_id: numeric('parent_id', { precision: 10, scale: 0 }).notNull(),
     kode_coa_group: varchar('kode_coa_group', { length: 255 }).notNull(),
     nama_coa_group: varchar('nama_coa_group', { length: 255 }).notNull(),
     default_input: varchar('default_input', { length: 255 }).notNull(),

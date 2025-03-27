@@ -1,1 +1,0 @@
-ALTER TABLE "eds_users" ADD COLUMN "uuid" varchar(255) NOT NULL;

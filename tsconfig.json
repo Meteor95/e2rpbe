@@ -6,6 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "@models/*": ["src/models/*"],
+      "@database/*": ["src/database/*"],
       "@controllers/*": ["src/controllers/*"],
       "@routes/*": ["src/routes/*"],
     }

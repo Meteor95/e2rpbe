@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
+    "@hono/swagger-ui": "^0.5.1",
     "drizzle-orm": "^0.40.0",
     "hono": "^4.7.4",
     "pg": "^8.14.0",
