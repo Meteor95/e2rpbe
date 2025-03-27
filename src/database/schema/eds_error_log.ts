@@ -1,4 +1,4 @@
-import { pgTable, varchar, boolean, timestamp, serial, numeric } from "drizzle-orm/pg-core";
+import { pgTable, varchar, timestamp, serial } from "drizzle-orm/pg-core";
 
 export const eds_error_log = pgTable('eds_error_log', {
     id: serial('id').primaryKey(),
