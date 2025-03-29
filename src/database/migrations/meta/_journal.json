@@ -5,8 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1743000121726,
-      "tag": "0000_create_table_log_coa_users",
+      "when": 1743230668317,
+      "tag": "0000_init_tables_siak",
       "breakpoints": true
     }
   ]

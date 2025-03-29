@@ -1,41 +1,63 @@
 import { db } from "@database/connection";
-import { eds_users } from "@database/schema/eds_users";
+import { eds_users } from "@database/schema";
+import { eq,or } from "drizzle-orm";
 
-export async function login(data: { 
-    kode_unik_member: string;
-    kode_perusahaan: string
+export async function processLogin(data: { 
+    username:string,
+    password:string,
+    device_id: string;
+    login_from: string;
 }) {
-
-    try {
-        const prepared = db.select().from(eds_users).prepare("login_process");
-        const result = await prepared.execute({
-            kode_perusahaan: data.kode_perusahaan,
-            kode_unik_member: data.kode_unik_member
-        });
-        return result;
-    } catch (error) {
+    const resultUser = await db.select()
+        .from(eds_users)
+        .where(eq(eds_users.username, data.username));
+    const isMatch = await Bun.password.verify(data.password, resultUser[0].password);
+    if (!isMatch) {
         return false;
     }
+    return resultUser[0]; 
 }
-export async function register(data: { 
-    uuid: string;
+export async function processRegister(data: { 
+    uuidv7: string;
+    email: string;
+    phone: string;
     username: string;
     password: string;
-    role: string;
+    role: number;
     registration_number: string;
-    status: string;
+    status: boolean;
+    max_allowed_login: number;
     created_at: Date;
 }) {
-    try {
-        const result = await db.execute(`
-            INSERT INTO eds_users (
-                uuid, username, password, role, registration_number, status, created_at
-            ) VALUES (
-                ${data.uuid}, ${data.username}, ${data.password}, ${data.role}, ${data.registration_number}, ${data.status}, ${data.created_at}
-            ) RETURNING id, username;
-        `);
-        return result;
-    } catch (error) {
-        return false;
+    const resultUser = await db.select()
+    .from(eds_users)
+    .where(
+        or(
+            eq(eds_users.username, data.username), 
+            eq(eds_users.email, data.email),
+            eq(eds_users.registration_number, data.registration_number)
+        )
+    ).limit(1);
+    if (resultUser.length > 0) {
+        return {
+            success: false,
+            username: resultUser[0].username,
+            email: resultUser[0].email,
+            registration_number: resultUser[0].registration_number,
+        };
     }
+    const result = await db.insert(eds_users).values({
+        uuid: data.uuidv7,
+        email: data.email,
+        phone: data.phone,
+        username: data.username,
+        password: data.password, 
+        role: data.role,
+        registration_number: data.registration_number,
+        status: data.status,
+        max_allowed_login: data.max_allowed_login,
+        created_at: data.created_at
+    }).returning({ id: eds_users.id, username: eds_users.username });
+    
+    return result;
 }

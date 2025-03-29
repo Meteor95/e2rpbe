@@ -1,30 +1,13 @@
-import { pgTable, varchar, integer, boolean, timestamp, serial } from "drizzle-orm/pg-core";
-import { number } from "zod";
+import { eds_siak_entri_jurnal } from "@database/schema/index";
+import { pgTable, varchar, integer, timestamp, serial, numeric } from "drizzle-orm/pg-core";
 
-export const eds_users = pgTable('eds_users', {
+export const eds_siak_entri_jurnalitem = pgTable('eds_siak_entri_jurnalitem', {
     id: serial('id').primaryKey().notNull(),
-    entri_jurnal_id: varchar('uuid', { length: 255 }).notNull(),
-    ledger_id: varchar('email', { length: 255 }).notNull(),
-    number
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    : varchar('phone', { length: 20 }).notNull(),
-    username: varchar('username', { length: 100 }).notNull(),
-    password: varchar('password', { length: 100 }).notNull(),
-    role: integer('role').notNull(),
-    registration_number: varchar('registration_number', { length: 255 }).notNull(),
-    status: boolean('status').notNull(),
+    entri_jurnal_id: integer('entri_jurnal_id').references(() => eds_siak_entri_jurnal.id, {onDelete: 'cascade'}).notNull(),
+    ledger_id: integer('ledger_id').notNull(),
+    journal_amount: numeric('journal_amount', { precision: 15, scale: 2 }).notNull(),
+    debit_credit: varchar('debit_credit', { length: 2 }).notNull(),
+    journal_narattion: varchar('journal_narattion', { length: 500 }).notNull(),
     created_at: timestamp('created_at').notNull().defaultNow(),
     updated_at: timestamp('updated_at'),
     deleted_at: timestamp('deleted_at')

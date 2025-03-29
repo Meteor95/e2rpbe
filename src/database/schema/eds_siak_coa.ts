@@ -1,8 +1,8 @@
-import { pgTable, varchar, boolean, timestamp, serial, numeric } from "drizzle-orm/pg-core";
+import { pgTable, varchar, boolean, timestamp, serial, numeric, integer } from "drizzle-orm/pg-core";
 
 export const eds_siak_coa = pgTable('eds_siak_coa', {
     id: serial('id').primaryKey(),
-    parent_id: numeric('parent_id', { precision: 10, scale: 0 }).notNull(),
+    parent_id: integer('parent_id').notNull(),
     kode_coa_group: varchar('kode_coa_group', { length: 255 }).notNull(),
     nama_coa_group: varchar('nama_coa_group', { length: 255 }).notNull(),
     default_input: varchar('default_input', { length: 255 }).notNull(),

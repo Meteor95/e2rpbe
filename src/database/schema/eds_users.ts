@@ -10,6 +10,7 @@ export const eds_users = pgTable('eds_users', {
     role: integer('role').notNull(),
     registration_number: varchar('registration_number', { length: 255 }).notNull(),
     status: boolean('status').notNull(),
+    max_allowed_login: integer('max_allowed_login').notNull(),
     created_at: timestamp('created_at').notNull().defaultNow(),
     updated_at: timestamp('updated_at'),
     deleted_at: timestamp('deleted_at')
