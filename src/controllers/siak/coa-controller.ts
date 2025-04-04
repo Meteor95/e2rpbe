@@ -1,5 +1,5 @@
 import { Context } from 'hono'
-import { deleteCOA, formatCOA, getAllCoa, InsertCoa } from "@models/siak/coa-model";
+import { CoaService } from "@services/siak/coa-services";
 import { handleError } from "@helpers/handleError";
 
 interface CoaItem {
@@ -27,7 +27,7 @@ function buildTree(data: CoaItem[], parentId: number): CoaItem[] {
 export const getCoa = async (c: Context) => {
     const { kode_unik_member, kode_perusahaan } = c.req.query();
     try {
-        const coaData = await getAllCoa({ kode_unik_member, kode_perusahaan });
+        const coaData = await CoaService.getAllCoa({ kode_unik_member, kode_perusahaan });
         const coa = coaData.map((item: any) => ({
             id: Number(item.id),
             parent_id: Number(item.parent_id),
@@ -53,7 +53,7 @@ export const getCoa = async (c: Context) => {
 export const getFormatCOA = async (c: Context) => {
     const { idCOA, kode_unik_member, kode_perusahaan, jenis_akun } = c.req.query();
     try {
-        const result = await formatCOA({ idCOA: Number(idCOA), kode_unik_member, kode_perusahaan, jenis_akun });
+        const result = await CoaService.formatCOA({ idCOA: Number(idCOA), kode_unik_member, kode_perusahaan, jenis_akun });
         return c.json({
             success: true,
             message: "New Format COA with Kode Perusahaan: " + kode_perusahaan + " and Kode Unik Member: " + kode_unik_member,
@@ -67,7 +67,7 @@ export const getFormatCOA = async (c: Context) => {
 export const deleteCodeCOA = async (c: Context) => {
     const { idCOA, kode_unik_member, kode_perusahaan } = c.req.query();
     try {
-       const result = await deleteCOA({ idCOA: Number(idCOA), kode_unik_member, kode_perusahaan, force_delete: false });
+       const result = await CoaService.deleteCOA({ idCOA: Number(idCOA), kode_unik_member, kode_perusahaan, force_delete: false });
        let messages = "COA has been deleted successfully and peacefully", is_success = true, data_result = result;
        if (result === 100) {
             is_success = false;
@@ -92,7 +92,7 @@ export const deleteCodeCOA = async (c: Context) => {
 export const createCoa = async (c: Context) => {
     try {
         const body = await c.req.json();
-        const data_return_insert = await InsertCoa(body);
+        const data_return_insert = await CoaService.InsertCoa(body);
         return c.json({ message: "COA added in our database successfully", data: data_return_insert }, 200);
     } catch (e) { 
         const error = e as AggregateError;

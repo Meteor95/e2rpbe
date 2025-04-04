@@ -3,5 +3,5 @@ import app from "../src/app";
 
 serve({
     fetch: app.fetch,
-    port: 12101,
+    port: 3000,
 });

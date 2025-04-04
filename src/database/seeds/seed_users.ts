@@ -5,12 +5,14 @@ import { faker } from "@faker-js/faker";
 async function seed() {
     console.log("Seeding database...");
     await db.delete(eds_users);
-    const password = "super-secure-pa$$word";
+    const password = "password";
     const bcryptHash = await Bun.password.hash(password, {
         algorithm: "bcrypt",
         cost: 12
       });
-    const users = Array.from({ length: 5 }).map(() => ({
+    const hasher = new Bun.CryptoHasher("sha256");
+    hasher.update(`${faker.string.uuid().replace(/-/g, '')}`);
+    const users = Array.from({ length: 1 }).map(() => ({
         uuid: faker.string.uuid(),
         email: faker.internet.email(),
         phone: faker.phone.number({ style: 'international' }),
@@ -19,6 +21,8 @@ async function seed() {
         role: faker.helpers.arrayElement([1, 2, 3]),
         registration_number: faker.string.alphanumeric(10),
         status: faker.datatype.boolean(),
+        max_allowed_login: faker.number.int({ min: 1, max: 10 }),
+        token: "eds_"+hasher.digest("hex"),
         created_at: new Date(),
         updated_at: new Date(),
     }));

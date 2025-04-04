@@ -1,0 +1,1 @@
+ALTER TABLE "eds_users_login" ADD COLUMN "login_from" varchar(255) NOT NULL;

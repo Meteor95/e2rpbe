@@ -4,5 +4,6 @@ export const eds_users_login = pgTable('eds_users_login', {
     id: serial('id').primaryKey().notNull(),
     user_id: integer('user_id').notNull(),
     deviced_id: varchar('deviced_id', { length: 255 }).notNull(),
+    login_from: varchar('login_from', { length: 255 }).notNull(),
     created_at: timestamp('created_at').notNull().defaultNow(),
 })

@@ -1,0 +1,1 @@
+ALTER TABLE "eds_users" ADD COLUMN "token" varchar(255);

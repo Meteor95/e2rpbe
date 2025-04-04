@@ -8,6 +8,20 @@
       "when": 1743230668317,
       "tag": "0000_init_tables_siak",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1743587987942,
+      "tag": "0001_add_column_login_form_eds_user_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1743614275946,
+      "tag": "0002_add_column_token_eds_user",
+      "breakpoints": true
     }
   ]
 }
